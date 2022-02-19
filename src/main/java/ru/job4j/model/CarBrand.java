@@ -11,7 +11,6 @@ import java.util.Objects;
  * @since 13.02.2022
  */
 
-
 @Entity
 @Table(name = "car_brand")
 public class CarBrand {
@@ -23,6 +22,9 @@ public class CarBrand {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "carBrand", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CarModel> models;
 
     public static CarBrand of(String name) {
         CarBrand brand = new CarBrand();
@@ -46,22 +48,19 @@ public class CarBrand {
         this.name = name;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CarModel> list;
-
     public void addCarModel(CarModel model) {
-        if (list == null) {
-            list = new ArrayList<>();
+        if (models == null) {
+            models = new ArrayList<>();
         }
-        list.add(model);
+        models.add(model);
     }
 
     public List<CarModel> getList() {
-        return list;
+        return models;
     }
 
     public void setList(List<CarModel> list) {
-        this.list = list;
+        this.models = list;
     }
 
     @Override
